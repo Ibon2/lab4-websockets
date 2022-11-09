@@ -3,7 +3,6 @@ package websockets
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*
@@ -14,7 +13,8 @@ import javax.websocket.*
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class ElizaServerTest {
-    private val possibleResponses = arrayListOf("Tell me more about such feelings.","Do you often feel sad?","Do you enjoy feeling sad?","Why do you feel that way?");
+    private val possibleResponses = arrayListOf("Tell me more about such feelings.",
+            "Do you often feel sad?", "Do you enjoy feeling sad?", "Why do you feel that way?")
     private lateinit var container: WebSocketContainer
 
     @LocalServerPort
@@ -68,8 +68,8 @@ class ElizaOnOpenMessageHandlerToComplete(private val list: MutableList<String>,
         latch.countDown()
 
         if (message.equals("What's on your mind?")) {
-            synchronized(session){
-                with(session.basicRemote){
+            synchronized(session) {
+                with(session.basicRemote) {
                     sendText("i feel sad")
                 }
             }
