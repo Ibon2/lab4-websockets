@@ -14,7 +14,7 @@ import javax.websocket.*
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class ElizaServerTest {
-
+    private val possibleResponses = arrayListOf("Tell me more about such feelings.","Do you often feel sad?","Do you enjoy feeling sad?","Why do you feel that way?");
     private lateinit var container: WebSocketContainer
 
     @LocalServerPort
@@ -37,7 +37,6 @@ class ElizaServerTest {
         assertEquals("The doctor is in.", list[0])
     }
 
-    @Disabled
     @Test
     fun onChat() {
         val latch = CountDownLatch(4)
@@ -46,8 +45,8 @@ class ElizaServerTest {
         val client = ElizaOnOpenMessageHandlerToComplete(list, latch)
         container.connectToServer(client, URI("ws://localhost:$port/eliza"))
         latch.await()
-        // assertEquals(XXX, list.size) COMPLETE ME
-        // assertEquals(XXX, list[XXX]) COMPLETE ME
+        assertEquals(4, list.size)
+        assertEquals(possibleResponses[possibleResponses.indexOf(list[3])], list[3])
     }
 }
 
@@ -67,8 +66,13 @@ class ElizaOnOpenMessageHandlerToComplete(private val list: MutableList<String>,
     fun onMessage(message: String, session: Session) {
         list.add(message)
         latch.countDown()
-        // if (COMPLETE ME) {
-        //    COMPLETE ME
-        // }
+
+        if (message.equals("What's on your mind?")) {
+            synchronized(session){
+                with(session.basicRemote){
+                    sendText("i feel sad")
+                }
+            }
+        }
     }
 }
