@@ -13,9 +13,12 @@ import javax.websocket.*
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class ElizaServerTest {
-    private val possibleResponses = arrayListOf(
-            "Tell me more about such feelings.", "Do you often feel sad?", "Do you enjoy feeling sad?",
-            "Why do you feel that way?"
+    private val possibleResponses =
+            arrayListOf(
+                    "Tell me more about such feelings.",
+                    "Do you often feel sad?",
+                    "Do you enjoy feeling sad?",
+                    "Why do you feel that way?"
     )
     private lateinit var container: WebSocketContainer
 
