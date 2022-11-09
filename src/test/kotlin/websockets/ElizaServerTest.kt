@@ -43,13 +43,13 @@ class ElizaServerTest {
 
     @Test
     fun onChat() {
-        val latch = CountDownLatch(4)
+        val latch = CountDownLatch(5)
         val list = mutableListOf<String>()
 
         val client = ElizaOnOpenMessageHandlerToComplete(list, latch)
         container.connectToServer(client, URI("ws://localhost:$port/eliza"))
         latch.await()
-        assertEquals(4, list.size)
+        assertEquals(5, list.size)
         assertEquals(possibleResponses[possibleResponses.indexOf(list[3])], list[3])
     }
 }
